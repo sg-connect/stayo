@@ -1,0 +1,233 @@
+.section-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all var(--transition-normal);
+
+  &:hover {
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+// Header
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &.icon-wifi {
+    background: #EFF6FF;
+    color: #2563EB;
+  }
+  &.icon-entry {
+    background: #FFF7ED;
+    color: #EA580C;
+  }
+  &.icon-rules {
+    background: #F0FDF4;
+    color: #16A34A;
+  }
+  &.icon-contact {
+    background: #FAF5FF;
+    color: #9333EA;
+  }
+  &.icon-laundry {
+    background: #F0F9FF;
+    color: #0284C7;
+  }
+  &.icon-custom {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+  }
+  &.icon-link {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+// Body
+.section-body {
+  font-size: 15px;
+  color: var(--color-text);
+  line-height: 1.65;
+  padding-left: 48px;
+}
+
+.text-content {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
+}
+
+// WiFi
+.wifi-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wifi-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.field-value {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.password-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.password-value {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 15px;
+  font-weight: 500;
+  background: var(--color-bg-secondary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  letter-spacing: 0.5px;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-text);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+
+  &:hover {
+    background: #000;
+    transform: scale(1.03);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &.copied {
+    background: var(--color-success);
+  }
+}
+
+// Contact
+.contact-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--color-text);
+}
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 8px 14px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  width: fit-content;
+
+  &:hover {
+    background: #FFE0E6;
+    transform: translateX(2px);
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+// Action Link Button
+.action-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--color-primary);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 18px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+
+  &:hover {
+    background: #FFE0E6;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .section-body {
+    padding-left: 0;
+    margin-top: 4px;
+  }
+
+  .password-row {
+    flex-wrap: wrap;
+  }
+}

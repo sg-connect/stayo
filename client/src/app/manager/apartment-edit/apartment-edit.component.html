@@ -1,0 +1,92 @@
+<div class="edit-page" *ngIf="!loading">
+  <header class="edit-header">
+    <h1>{{ isNew ? 'New Apartment' : 'Edit Apartment' }}</h1>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="cancel()">Cancel</button>
+      <button class="btn-primary" (click)="save()" [disabled]="saving || !title || !publicSlug || !buildingId">
+        {{ saving ? 'Saving...' : 'Save' }}
+      </button>
+    </div>
+  </header>
+
+  <div class="edit-layout">
+    <div class="edit-main">
+      <!-- Basic Info -->
+      <section class="form-section">
+        <h2>Basic Info</h2>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input id="title" type="text" [(ngModel)]="title" (blur)="isNew && !publicSlug ? generateSlug() : null" placeholder="e.g. Apartment 3B" />
+        </div>
+        <div class="form-group">
+          <label for="slug">Public Slug</label>
+          <div class="slug-input">
+            <span class="slug-prefix">/a/</span>
+            <input id="slug" type="text" [(ngModel)]="publicSlug" placeholder="apartment-3b" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="building">Building</label>
+          <select id="building" [(ngModel)]="buildingId">
+            <option value="" disabled>Select a building</option>
+            <option *ngFor="let b of buildings" [value]="b.id">{{ b.name }}</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Sections -->
+      <section class="form-section">
+        <div class="sections-header">
+          <h2>Sections</h2>
+          <div class="add-section">
+            <select #sectionSelect>
+              <option *ngFor="let t of sectionTypes" [value]="t.value">{{ t.label }}</option>
+            </select>
+            <button class="btn-secondary btn-sm" (click)="addSection($any(sectionSelect.value))">+ Add</button>
+          </div>
+        </div>
+
+        <div class="section-list">
+          <div class="section-item" *ngFor="let section of sections; let i = index">
+            <div class="section-item-header">
+              <div class="section-item-title">
+                <input type="text" [(ngModel)]="section.title" class="inline-edit" />
+                <span class="section-type-badge">{{ section.type }}</span>
+              </div>
+              <div class="section-item-actions">
+                <button class="btn-icon" (click)="moveSection(i, -1)" [disabled]="i === 0" title="Move up">&#8593;</button>
+                <button class="btn-icon" (click)="moveSection(i, 1)" [disabled]="i === sections.length - 1" title="Move down">&#8595;</button>
+                <button class="btn-icon btn-icon-danger" (click)="removeSection(i)" title="Remove">&#10005;</button>
+              </div>
+            </div>
+            <div class="section-item-fields">
+              <div class="form-group" *ngFor="let key of getContentKeys(section)">
+                <label>{{ getFieldLabel(key) }}</label>
+                <textarea *ngIf="isTextArea(key)" [(ngModel)]="section.content[key]" rows="3"></textarea>
+                <input *ngIf="!isTextArea(key)" type="text" [(ngModel)]="section.content[key]" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-sections" *ngIf="sections.length === 0">
+          <p>No sections yet. Add WiFi info, house rules, contacts, and more.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- QR Preview Sidebar -->
+    <aside class="edit-sidebar" *ngIf="!isNew && qrData">
+      <div class="qr-preview">
+        <h3>QR Code</h3>
+        <img [src]="qrData.dataUrl" alt="QR Code" class="qr-image" />
+        <p class="qr-url">{{ qrData.publicUrl }}</p>
+        <a [href]="'/api/qr/' + publicSlug" download class="btn-secondary btn-block">Download PNG</a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading">
+  <div class="spinner"></div>
+</div>

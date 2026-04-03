@@ -1,0 +1,136 @@
+<div class="section-card" [attr.data-type]="section.type">
+  <div class="section-header">
+    <div class="section-icon-wrap" [ngClass]="'icon-' + section.type">
+      <!-- WiFi -->
+      <svg *ngIf="section.type === 'wifi'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+        <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+        <line x1="12" y1="20" x2="12.01" y2="20"/>
+      </svg>
+      <!-- Entry / Key -->
+      <svg *ngIf="section.type === 'entry'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+      </svg>
+      <!-- Rules -->
+      <svg *ngIf="section.type === 'rules'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+      <!-- Contact -->
+      <svg *ngIf="section.type === 'contact'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <!-- Laundry -->
+      <svg *ngIf="section.type === 'laundry'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="2"/>
+        <circle cx="12" cy="13" r="5"/>
+        <path d="M12 8a3 3 0 0 1 2.12 5.12"/>
+        <circle cx="7" cy="6" r="1" fill="currentColor"/>
+      </svg>
+      <!-- Custom -->
+      <svg *ngIf="section.type === 'custom'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      <!-- Link -->
+      <svg *ngIf="section.type === 'link'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+    </div>
+    <h3 class="section-title">{{ section.title }}</h3>
+  </div>
+
+  <!-- WiFi -->
+  <div *ngIf="section.type === 'wifi'" class="section-body">
+    <div class="wifi-grid">
+      <div class="wifi-field">
+        <span class="field-label">Network</span>
+        <span class="field-value">{{ section.content['network'] }}</span>
+      </div>
+      <div class="wifi-field">
+        <span class="field-label">Password</span>
+        <div class="password-row">
+          <code class="password-value">{{ section.content['password'] }}</code>
+          <button class="copy-btn" (click)="copyToClipboard(section.content['password'])" [class.copied]="copied">
+            <svg *ngIf="!copied" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <svg *ngIf="copied" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {{ copied ? 'Copied!' : 'Copy' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Entry -->
+  <div *ngIf="section.type === 'entry'" class="section-body">
+    <p class="text-content">{{ section.content['text'] }}</p>
+  </div>
+
+  <!-- Rules -->
+  <div *ngIf="section.type === 'rules'" class="section-body">
+    <p class="text-content pre-wrap">{{ section.content['text'] }}</p>
+  </div>
+
+  <!-- Contact -->
+  <div *ngIf="section.type === 'contact'" class="section-body">
+    <p class="contact-name">{{ section.content['name'] }}</p>
+    <div class="contact-actions">
+      <a *ngIf="section.content['phone']" [href]="'tel:' + section.content['phone']" class="contact-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        {{ section.content['phone'] }}
+      </a>
+      <a *ngIf="section.content['email']" [href]="'mailto:' + section.content['email']" class="contact-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        {{ section.content['email'] }}
+      </a>
+    </div>
+  </div>
+
+  <!-- Laundry -->
+  <div *ngIf="section.type === 'laundry'" class="section-body">
+    <p class="text-content">{{ section.content['text'] }}</p>
+    <a *ngIf="section.content['link']" [href]="section.content['link']" target="_blank" class="action-link-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Book a Slot
+    </a>
+  </div>
+
+  <!-- Custom -->
+  <div *ngIf="section.type === 'custom'" class="section-body">
+    <p class="text-content pre-wrap">{{ section.content['text'] }}</p>
+  </div>
+
+  <!-- Link -->
+  <div *ngIf="section.type === 'link'" class="section-body">
+    <a [href]="section.content['url']" target="_blank" class="action-link-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+      {{ section.content['label'] || 'Open Link' }}
+    </a>
+  </div>
+</div>
