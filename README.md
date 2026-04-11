@@ -1,56 +1,101 @@
-# Stayo — Apartment Guest Info Manager
+# Stayo 🏠
 
-Stayo is a tool for short-term rental hosts and property managers to create shareable, QR-code-accessible info pages for their apartments. Guests scan a QR code on arrival and instantly see WiFi credentials, entry instructions, house rules, contacts, and more — no app download needed.
+**Digital guest info pages for short-term rentals — scan a QR code, get everything you need.**
 
-## The Idea
+Stayo replaces printed laminated sheets and long guest messages with clean, mobile-friendly info pages. Create a page for each apartment, add WiFi credentials, entry instructions, house rules, and more — then generate a QR code. Place it in the apartment. Done.
 
-Instead of printing laminated sheets or sending long messages to every guest, create a digital info page for each apartment. Each page gets a unique URL and QR code. Place the QR code in the apartment and guests can access everything they need from their phone.
+![Screenshot placeholder](https://via.placeholder.com/960x540/FFF0F3/FF385C?text=Stayo+Dashboard)
 
-## What It Does
+---
 
-- **Dashboard** — Overview of all apartments across buildings, with quick actions to edit, delete, open the public page, or download the QR code
-- **Apartment Editor** — Create and edit apartments with a drag-and-drop section builder. Add sections for:
-  - WiFi (network name + password)
+## Features
+
+- **Dashboard** — Overview of all apartments across buildings with stats, quick actions, and QR code previews
+- **Apartment Editor** — Build info pages with a section-based editor supporting:
+  - WiFi (network + password)
   - Entry Instructions (door codes, key locations)
   - House Rules
   - Contact Info (name, phone, email)
   - Laundry (instructions + booking link)
-  - Custom Text (anything else)
+  - Custom Text
   - External Links
-- **Public Guest Pages** — Clean, mobile-friendly pages at `/a/:slug` that guests see when scanning the QR code
-- **QR Code Generation** — Auto-generated QR codes (PNG) for each apartment, downloadable and printable
+- **Public Guest Pages** — Clean, animated pages at `/a/:slug` that guests see when scanning the QR code
+- **QR Code Generation** — Auto-generated QR codes (1024px PNG) for each apartment, downloadable and printable
 - **Multi-Building Support** — Organize apartments by building
+- **Copy to Clipboard** — Guests can tap to copy WiFi passwords and other details
+- **Responsive Design** — Looks great on phones, which is how most guests will access it
 
 ## Tech Stack
 
-**Client**
-- Angular 20 (standalone components)
-- TypeScript
-- SCSS
-- RxJS
-
-**Server**
-- Node.js + Express
-- TypeScript (tsx for dev)
-- In-memory data store
-- QR code generation (`qrcode` library)
-- UUID for unique IDs
-
-**Shared**
-- Shared TypeScript types between client and server
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | Angular 20, TypeScript, SCSS, RxJS |
+| **Backend** | Node.js, Express 4, TypeScript (tsx) |
+| **QR Codes** | `qrcode` library (PNG + data URL) |
+| **Data** | In-memory store (seed data included) |
+| **Shared** | Shared TypeScript types between client and server |
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Run the server
+
 ```bash
-# Server
 cd server
 npm install
 npm run dev
+```
 
-# Client (separate terminal)
+The API starts at **http://localhost:3200**.
+
+### Run the client
+
+```bash
 cd client
 npm install
 npm start
 ```
 
-The client runs on http://localhost:4200 and proxies API calls to the server on port 3200.
+The app opens at **http://localhost:4200** and proxies API calls to the server.
+
+## Project Structure
+
+```
+stayo/
+  client/          Angular 20 frontend (standalone components)
+    src/app/
+      manager/       Dashboard + Apartment editor
+      public/        Guest-facing public page
+      shared/        Reusable section renderer
+      services/      API service layer
+      models/        TypeScript interfaces
+  server/          Express API
+    src/
+      routes/        apartments, public, qr
+      data/          In-memory store with seed data
+      types/         Shared type re-exports
+  shared/          TypeScript types shared across client & server
+```
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/apartments` | List all apartments |
+| `GET` | `/api/apartments/:id` | Get apartment by ID |
+| `POST` | `/api/apartments` | Create apartment |
+| `PUT` | `/api/apartments/:id` | Update apartment |
+| `DELETE` | `/api/apartments/:id` | Delete apartment |
+| `GET` | `/api/apartments/buildings/list` | List all buildings |
+| `GET` | `/api/public/:slug` | Get public apartment data |
+| `GET` | `/api/qr/:slug` | Download QR code as PNG |
+| `GET` | `/api/qr/:slug/data` | Get QR code as data URL |
+| `GET` | `/api/health` | Health check |
+
+## License
+
+Internal hackathon project.
